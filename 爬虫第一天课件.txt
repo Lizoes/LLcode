@@ -1,0 +1,125 @@
+### 爬虫的工作流程(重点)
+
+1. 准备URL列表
+2. 遍历URL列表, 发送请求, 获取响应数据
+3. 提取数据 -> 入库
+4. 提取新URL -> URL列表
+
+
+### ROBOTS协议:
+
+1. 用于规定这个网站哪些URL可以爬, 哪些URL不可以爬. 
+2. 是一个道德规范, 可以遵从也可以不遵守.
+
+
+### URL
+URL: 统一资源定位符是对可以从互联网上得到的资源的位置和访问方法的一种简洁的表示，是互联网上标准资源的地址
+
+URL的格式
+格式: scheme://host[:port#]/path/…/[?query-string][#anchor]
+scheme：协议(例如：http, https, ftp)
+host：服务器的IP地址或者域名
+port：服务器的端口（如果是走协议默认端口,80[http]or443[https]可以省略)
+path：访问资源的路径
+query-string：参数，发送给http服务器的数据
+anchor：锚（跳转到网页的指定锚点位置）
+http://item.jd.com/11993134.html#detail
+
+
+### 浏览器发送HTTP请求的过程
+1. 根据域名 -> 给DNS服务器发送请求, 获取WEB服务器IP地址
+2. 根据IP地址给WEB服务器发送请求, 获取响应数据
+3. 注意: 浏览器渲染的页面内容和爬虫请求的页面, 并不完全一样. 原因: 浏览器在渲染的时候, 可能会动态就加载执行js生成新的页面元素.
+
+#### 常见的请求方法
+
+request请求
+response响应
+
+
+1. get:
+  - 用于获取数据, 请求参数在URL上, 数据大小有限制(2k`7k)
+2. post
+  - 用于提交数据到服务器, 请求数据在请求体重, 数据大小没有限制
+
+#### HTTP常见请求头(重点)
+
+1. User-Agent: 代表客户端; 
+2. Referer: 我来自哪里
+3. Cookie: 我是谁, 表示是那个用户.
+
+#### 重要响应头
+
+ 	**Set-Cookie** 服务器设置cookie到客户端.
+
+#### 响应状态码(status code)
+	200成功
+	3XX重定向
+	4XX没权限，找不到等等
+	5XX服务器
+	在爬虫中状态码不可信, 数据才是可信的. 客户端的数据要抓到的数据一致.
+	投毒
+
+#### requests的基本使用
+中文文档 API：
+http://docs.python-requests.org/zh_CN/latest/index.html
+
+1. 安装: pip install requests
+2. 使用:
+  - 导入
+  - 发送请求, 获取响应对象
+    - response = requests.get(url)
+  - 获取响应数据
+3. response中常用属性
+  - encoding: 获取编码方式，自动根据响应推断出来的，有时候会推断错
+  解决猜测错误问题:response.encoding = 'utf8'
+  - content: 二进制文本
+  - url: 获取响应的url
+  - cookies 获取cookies
+  - status_code: 状态码
+
+  - request.headers: 请求头
+  - request.url: 获取请求的url
+  - request.cookies: 获取cookies
+
+ ### 用reuquests爬取图片
+ 思路:
+	导包
+	发送请求,获取响应
+	打开文件,把数据写入文件
+
+### 发送带有headers的请求
+h= {}
+requests.get(headers = h)
+
+### 使用requests模块发送带有参数的请求
+两种方式:
+  1. 拼接URL: 把参数拼接到URL中
+  2. 使用params参数,封装为一个字典,键为url等号前,值为等号后
+     response = requests.get(url , params={})
+
+### 贴吧爬虫
+
+要求: 可以指定贴吧名称, 起始页与结束页
+思路:
+
+找出访问贴吧内容的URL的规律
+http://tieba.baidu.com/f?kw=吧名&ie=utf-8&pn=(页码-1)*50
+代码实现
+根据规律生成访问贴吧内容页面的URL,放到列表中
+遍历URL,发送请求,获取内容
+把内容页面写到文件中
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+

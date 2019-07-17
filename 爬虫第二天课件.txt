@@ -1,0 +1,93 @@
+### 使用requests模块发送post请求
+
+	Response = requests.post(url, data={},headers={})
+
+	url = 'http://httpbin.org/post'
+	data = {
+		'name': '蔡徐坤',
+		'hob':  'rap,跳舞,篮球'
+	}
+
+
+### 在requests模块中使用代理发送请求
+
+1. 代理IP的分类:
+
+  - 透明代理: 服务器知道我使用了代理, 也知道我的真实IP
+  - 匿名代理: 服务器知道我使用了代理, 但是不知道我的真实IP
+  - 高匿代理: 服务器不知道我使用代理, 也不知道我的真实IP
+
+2. resquests使用使用代理发送请求
+
+  - 准备代理
+
+    - proxies = {
+
+      'http':'xxx',
+
+      'https': 'xxx'
+
+      }
+
+  - 发送请求
+
+    - response = requests.get(url, proxies=proxies)
+
+  - 注意: 发送http请求, 使用http的代理, 发送https请求, 使用https的代理, 如果没有提供就不使用代理.
+
+### requests处理cookie
+
+1. 使用请求头携带cookie信息
+
+   headers = {
+
+   ​	'Cookie': xxx
+
+   }
+
+   requests.get(url, headers = headers)
+
+2. 使用cookies的字典参数携带cookie信息
+
+   1. 准备cookies的字典
+   	 cookie_dic = {one_cookie.split("=")[0]
+:one_cookie.split("=")[1] for one_cookie in cookie_str.split("; ")}
+
+   2. 使用cookies字典参数, 携带cookie信息
+
+      response = requests.get(url, cookies={})
+
+#### 如何找POST请求的URL和要发送的数据 
+
+两种情况:
+  1. 有form表单, 并且form表单中有action
+    - URL: 就是action属性指定的URL
+    - 数据: 在form表单input标签中.
+  2. 没有form表单, 有form但是没有action
+    - 使用开发工具中network进行监听
+    - URL: 在headers标签面板最上面
+    - 数据:  在headers标签面板最下面
+
+####  数据来源
+
+1. 用户录入的数据: 暂时写死
+2. 固定数据: 写死
+3. 上一次, 上几次请求返回的数据:
+   	1. 先发送上面的请求, 获取需要的数据
+4. 通过js生成的数据:
+   	1. 定位js- 找到生成这个密码的js
+   	2. 调试js-> 理解js代码执行过程
+   	3. 模拟或执行js, 生成需要的数据.
+
+### 百度翻译
+
+
+
+
+
+
+
+
+
+
+
