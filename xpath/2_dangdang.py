@@ -32,8 +32,10 @@ while True:
         mode = "a" if os.path.getsize(file) > 0 else "w"
         with open(file, mode, encoding="utf8") as f:
             f.write("书名：" + book_name + "\n价格：" + price + "\n链接：" + href + "\n\n")
-    url = "http://search.dangdang.com" + element.xpath('//*[@id="12810"]/div[5]/div[2]/div/ul/li[10]/a/@href')[0]
-    print(url)
-    if not url:
+    # url = "http://search.dangdang.com" + element.xpath('//*[@id="12810"]/div[5]/div[2]/div/ul/li[10]/a/@href')[0]
+    next = element.xpath('//*[@title="下一页"]/@href')
+    if not next:
         break
+    url = "http://search.dangdang.com" + next[0]
+    print(url)
 
