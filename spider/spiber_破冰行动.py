@@ -12,6 +12,7 @@ https://www.biqulou.net/439/439271/2441647.html         153
 
 import requests
 import re
+from lxml import html
 
 
 class Spider:
@@ -37,13 +38,17 @@ class Spider:
 
     def handel_data(self, html_str):
         """处理html，提取所需的内容"""
-        title = re.search('<div class="bookname"><h1>(.*)</h1>', html_str)
+        element = html.fromstring(html_str)
+        title = element.xpath('/html/body/div/div/div/h1/text()')
+        # content = element.xpath('/body/div/div/div[@id="content"]')
         print(title)
+        # print(content)
 
     def save_file(self, data):
         """保存文件"""
-        with open("text.txt", "a") as f:
-            f.write(data)
+        return
+        # with open("text.txt", "a") as f:
+        #     f.write(data)
 
     def go(self):
         self.make_urls()
