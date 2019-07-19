@@ -2,6 +2,7 @@ import re
 import time
 import requests
 from selenium import webdriver
+
 # url = re.match(".*\.jpg",url).group()
 # driver.maximize_window()
 # driver.execute_script("window.scrollBy(250, 500)")
@@ -23,14 +24,14 @@ for li in lis:
     url = li.find_element_by_xpath('.//img[@class="DyImg-content is-normal "]').get_attribute("src")
     name = li.find_element_by_xpath('.//h2[@class="DyListCover-user"]').text
     try:
-        url = re.match(".*\.jpg",url).group()
+        url = re.match(".*\.jpg", url).group()
         response = requests.get(url)
-        with open("./img/"+name+".jpg", 'wb') as f:
+        with open("./img/" + name + ".jpg", 'wb') as f:
             f.write(response.content)
     except:
-        url = re.match(".*\.png",url).group()
+        url = re.match(".*\.png", url).group()
         response = requests.get(url)
-        with open("./img/"+name+".png", 'wb') as f:
+        with open("./img/" + name + ".png", 'wb') as f:
             f.write(response.content)
 
 # 5处理url和主播名爬取图片并保存
@@ -39,13 +40,3 @@ for li in lis:
 # 6.翻页
 
 driver.close()
-
-
-
-
-
-
-
-
-
-
